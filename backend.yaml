@@ -1,0 +1,113 @@
+# RC for svc1
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: svc1
+spec:
+  replicas: 1
+  selector:
+  template:
+    metadata:
+      labels:
+        app: svc1
+    spec:
+      containers:
+      - name: svc1
+        image: docker.io/patrickeasters/example-web-service
+        env:
+        - name: APP_SVC
+          value: svc1
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---
+# RC for svc2
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: svc2
+spec:
+  replicas: 1
+  selector:
+  template:
+    metadata:
+      labels:
+        app: svc2
+    spec:
+      containers:
+      - name: svc2
+        image: docker.io/patrickeasters/example-web-service
+        env:
+        - name: APP_SVC
+          value: svc2
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---
+# RC for svc3
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: svc3
+spec:
+  replicas: 1
+  selector:
+  template:
+    metadata:
+      labels:
+        app: svc3
+    spec:
+      containers:
+      - name: svc3
+        image: docker.io/patrickeasters/example-web-service
+        env:
+        - name: APP_SVC
+          value: svc3
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---
+# Service for svc1
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: svc1
+  name: svc1
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: svc1
+---
+# Service for svc2
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: svc2
+  name: svc2
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: svc2
+---
+# Service for svc3
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: svc3
+  name: svc3
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: svc3
